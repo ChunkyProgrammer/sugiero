@@ -1,9 +1,13 @@
 import { Suggestion } from './providers/base';
+import { Brave } from './providers/Brave';
 import { DuckDuckGo } from './providers/DuckDuckGo';
 import { Google } from './providers/Google';
+import { Qwant } from './providers/Qwant';
+import { Startpage } from './providers/Startpage';
+import { SwisCows } from './providers/SwissCows';
 import { Yahoo } from './providers/Yahoo';
 
-export type SearchProviderType = 'Google' | 'Yahoo' | 'DuckDuckGo' | 'random';
+export type SearchProviderType = 'Brave' | 'DuckDuckGo' | 'Google' | 'Qwant' | 'Startpage' | 'SwissCows' | 'Yahoo' | 'random';
 
 /**
  * Gets search suggestions for a partial search
@@ -17,13 +21,21 @@ export async function getSuggestions(partialSearch: string, searchProvider: Sear
   let provider = searchProvider;
 
   if (provider === 'random') {
-    const providers = ['Google', 'Yahoo', 'DuckDuckGo'];
+    const providers = ['Brave', 'DuckDuckGo', 'Google', 'Qwant', 'Startpage', 'SwissCows', 'Yahoo'];
     provider = providers[Math.floor(Math.random() * providers.length)] as SearchProviderType;
   }
 
   switch (provider) {
+    case 'Brave':
+      return Brave.getSuggestions(partialSearch);
     case 'DuckDuckGo':
       return DuckDuckGo.getSuggestions(partialSearch);
+    case 'Qwant':
+      return Qwant.getSuggestions(partialSearch);
+    case 'Startpage':
+      return Startpage.getSuggestions(partialSearch);
+    case 'SwissCows':
+      return SwisCows.getSuggestions(partialSearch);
     case 'Yahoo':
       return Yahoo.getSuggestions(partialSearch);
     default:
