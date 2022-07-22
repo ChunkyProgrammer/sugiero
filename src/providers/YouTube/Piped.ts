@@ -1,18 +1,20 @@
 import axios from 'axios';
-import { BaseProvider, Suggestion } from './base';
+import { BaseProvider, Suggestion } from '../base';
 
-export type SwisscowsSuggestResult = string[];
+export type PipedSuggestResult = string[];
 
-export class Swisscows extends BaseProvider {
+export class Piped extends BaseProvider {
+  protected static defaultUrl: string = 'https://pipedapi.kavin.rocks';
+
   /**
-   * Gets the URL to query the autosuggest service
-   *
-   * @static
-   * @param {string} searchTerm
-   * @return {string}
-   */
+     * Gets the URL to query the autosuggest service
+     *
+     * @static
+     * @param {string} searchTerm
+     * @return {string}
+     */
   static getUrl(searchTerm: string): string {
-    return `https://swisscows.com/api/suggest?query=${searchTerm}&itemsCount=10`;
+    return `${this.baseUrl}/suggestions?query=${searchTerm}`;
   }
 
   /**
@@ -26,7 +28,7 @@ export class Swisscows extends BaseProvider {
     const url = this.getUrl(partialSearch);
 
     const res = await axios(url);
-    const suggestions = await res.data as SwisscowsSuggestResult;
+    const suggestions = await res.data as PipedSuggestResult;
 
     return suggestions.map((suggestion) => ({
       term: suggestion,

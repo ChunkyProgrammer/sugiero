@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SuggestionType, BaseProvider, Suggestion } from './base';
+import { SuggestionType, BaseProvider, Suggestion } from '../base';
 
 export type YahooSuggestResult = {
   q: string,
@@ -13,6 +13,8 @@ export type YahooSuggestResult = {
 };
 
 export class Yahoo extends BaseProvider {
+  protected static defaultUrl: string = 'https://search.yahoo.com';
+
   /**
    * Type enforce the suggestion type
    *
@@ -32,7 +34,7 @@ export class Yahoo extends BaseProvider {
    * @return {string}
    */
   static getUrl(searchTerm: string): string {
-    return `https://search.yahoo.com/sugg/gossip/gossip-us-ura/?command=${searchTerm}&output=sd1&appid=yfp-t&nresults=10&pq=`;
+    return `${this.baseUrl}/sugg/gossip/gossip-us-ura/?command=${searchTerm}&output=sd1&appid=yfp-t&nresults=10&pq=`;
   }
 
   /**

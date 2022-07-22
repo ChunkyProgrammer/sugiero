@@ -1,4 +1,4 @@
-import { Google, GoogleSuggestResult } from './Google';
+import { Google, GoogleSuggestResult } from '../SearchEngines/Google';
 
 export type YouTubeSuggestResult = GoogleSuggestResult;
 
@@ -11,6 +11,6 @@ export class YouTube extends Google {
    * @return {string}
    */
   static getUrl(searchTerm: string): string {
-    return `https://suggestqueries.google.com/complete/search?client=chrome&ds=yt&q=${searchTerm}`;
+    return `${this.baseUrl}/complete/search?client=chrome&ds=yt&q=${searchTerm}`;
   }
 }

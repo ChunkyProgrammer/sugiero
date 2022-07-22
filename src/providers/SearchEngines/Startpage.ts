@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BaseProvider, Suggestion } from './base';
+import { BaseProvider, Suggestion } from '../base';
 
 export type StartpageSuggestResult = {
   extended_data: {},
@@ -9,6 +9,8 @@ export type StartpageSuggestResult = {
 };
 
 export class Startpage extends BaseProvider {
+  protected static defaultUrl: string = 'https://www.startpage.com';
+
   /**
    * Gets the URL to query the autosuggest service
    *
@@ -17,7 +19,7 @@ export class Startpage extends BaseProvider {
    * @return {string}
    */
   static getUrl(searchTerm: string): string {
-    return `https://www.startpage.com/suggestions?q=${searchTerm}&segment=startpage.udog`;
+    return `${this.baseUrl}/suggestions?q=${searchTerm}&segment=startpage.udog`;
   }
 
   /**

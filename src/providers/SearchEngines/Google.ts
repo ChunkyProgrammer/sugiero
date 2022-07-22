@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SuggestionType, BaseProvider, Suggestion } from './base';
+import { SuggestionType, BaseProvider, Suggestion } from '../base';
 
 export type GoogleSuggestResult = [
   string,
@@ -16,6 +16,8 @@ export type GoogleSuggestResult = [
 ];
 
 export class Google extends BaseProvider {
+  protected static defaultUrl: string = 'https://suggestqueries.google.com';
+
   /**
    * Type enforce the suggestion type
    *
@@ -35,7 +37,7 @@ export class Google extends BaseProvider {
    * @return {string}
    */
   static getUrl(searchTerm: string): string {
-    return `https://suggestqueries.google.com/complete/search?client=chrome&q=${searchTerm}`;
+    return `${this.baseUrl}/complete/search?client=chrome&q=${searchTerm}`;
   }
 
   /**

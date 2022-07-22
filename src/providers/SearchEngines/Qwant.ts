@@ -1,11 +1,20 @@
 import axios from 'axios';
-import { BaseProvider, Suggestion } from './base';
+import { BaseProvider, Suggestion } from '../base';
 
-export type DuckDuckGoSuggestResult = {
-  'phrase': string
-}[];
+export type QwantSuggestResult = {
+  'status': string
+  'data': {
+    items: {
+      'value': string
+      'suggestType': number
+    }[]
+  },
+  'special': []
+};
 
-export class DuckDuckGo extends BaseProvider {
+export class Qwant extends BaseProvider {
+  protected static defaultUrl: string = 'https://api.qwant.com';
+
   /**
    * Gets the URL to query the autosuggest service
    *
@@ -14,7 +23,7 @@ export class DuckDuckGo extends BaseProvider {
    * @return {string}
    */
   static getUrl(searchTerm: string): string {
-    return `https://duckduckgo.com/ac/?q=${searchTerm}&kl=wt-wt`;
+    return `${this.baseUrl}/v3/suggest?q=${searchTerm}&version=2`;
   }
 
   /**
@@ -28,10 +37,9 @@ export class DuckDuckGo extends BaseProvider {
     const url = this.getUrl(partialSearch);
 
     const res = await axios(url);
-    const suggestions = await res.data as DuckDuckGoSuggestResult;
-
-    return suggestions.map((suggestion) => ({
-      term: suggestion.phrase,
+    const suggestions = await res.data as QwantSuggestResult;
+    return suggestions.data.items.map((suggestion) => ({
+      term: suggestion.value,
       type: 'QUERY',
     }));
   }

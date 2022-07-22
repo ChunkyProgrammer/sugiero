@@ -1,21 +1,23 @@
 import axios from 'axios';
-import { BaseProvider, Suggestion } from './base';
+import { BaseProvider, Suggestion } from '../base';
 
-export type BraveSuggestResult = [
+export type InvidiousSuggestResult = [
   string,
   string[],
 ];
 
-export class Brave extends BaseProvider {
+export class Invidious extends BaseProvider {
+  protected static defaultUrl: string = '';
+
   /**
-   * Gets the URL to query the autosuggest service
-   *
-   * @static
-   * @param {string} searchTerm
-   * @return {string}
-   */
+     * Gets the URL to query the autosuggest service
+     *
+     * @static
+     * @param {string} searchTerm
+     * @return {string}
+     */
   static getUrl(searchTerm: string): string {
-    return `https://search.brave.com/api/suggest?q=${searchTerm}`;
+    return `${this.baseUrl}/api/v1/search/suggestions?q=${searchTerm}`;
   }
 
   /**
@@ -29,7 +31,7 @@ export class Brave extends BaseProvider {
     const url = this.getUrl(partialSearch);
 
     const res = await axios(url);
-    const suggestions = await res.data as BraveSuggestResult;
+    const suggestions = await res.data as InvidiousSuggestResult;
 
     return suggestions[1].map((suggestion) => ({
       term: suggestion,
